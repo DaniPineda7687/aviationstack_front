@@ -42,7 +42,7 @@ const useAirportStore = create<AirportStore>((set, get) => ({
   error: null,
   fetchedOffsets: [],
   fetchAirports: async (params = {}) => {
-    const { offset = 0, limit = 6 } = params;
+    const { offset = 0 } = params;
     if (get().fetchedOffsets.includes(offset)) return;
 
     set({ loading: true, error: null });
@@ -56,7 +56,6 @@ const useAirportStore = create<AirportStore>((set, get) => ({
         },
       });
       set((state) => {
-        // Mezclamos los aeropuertos sin duplicados (basado en geoname_id)
         const merged = [...state.airports, ...response.data.data].filter(
           (airport, index, self) =>
             index === self.findIndex((a) => a.geoname_id === airport.geoname_id)
