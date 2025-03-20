@@ -16,6 +16,8 @@ const Pagination: React.FC<PaginationProps> = ({
 }) => {
   const totalPages = Math.ceil(totalItems / pageSize);
 
+  if(totalItems === 0) return <></>
+
   return (
     <div className="flex justify-center items-center mt-4 gap-4">
       <button

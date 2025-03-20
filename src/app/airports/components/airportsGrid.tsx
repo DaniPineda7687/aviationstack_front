@@ -18,7 +18,7 @@ const AirportsGrid: React.FC<AirportsGridProps> = ({ filteredAirports, loading }
   }
 
   return filteredAirports.length === 0 ? (
-    <div className="flex justify-center items-center h-full min-h-[300px]">
+    <div className="flex justify-center items-center text-white my-8">
         <p>No se encontraron aeropuertos</p>
     </div>
   ) : (
