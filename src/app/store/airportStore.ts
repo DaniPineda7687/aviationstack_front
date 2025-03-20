@@ -1,5 +1,4 @@
 // store/airportStore.ts
-
 import axios from "axios";
 import { create } from "zustand";
 
@@ -26,24 +25,23 @@ export interface Pagination {
 }
 
 interface AirportStore {
-  airports: Airport[];
+  pages: { [offset: number]: Airport[] };
   pagination: Pagination;
   loading: boolean;
   error: string | null;
-  fetchedOffsets: number[];
   fetchAirports: (params?: { offset?: number; limit?: number }) => Promise<void>;
   clearAirports: () => void;
 }
 
 const useAirportStore = create<AirportStore>((set, get) => ({
-  airports: [],
+  pages: {},
   pagination: { offset: 0, limit: 6, count: 0, total: 0 },
   loading: false,
   error: null,
-  fetchedOffsets: [],
   fetchAirports: async (params = {}) => {
-    const { offset = 0 } = params;
-    if (get().fetchedOffsets.includes(offset)) return;
+    const { offset = 0, limit = 6 } = params;
+    // Si ya se ha consultado esa página, no volvemos a pedirla
+    if (get().pages[offset]) return;
 
     set({ loading: true, error: null });
     try {
@@ -55,18 +53,11 @@ const useAirportStore = create<AirportStore>((set, get) => ({
           ...params,
         },
       });
-      set((state) => {
-        const merged = [...state.airports, ...response.data.data].filter(
-          (airport, index, self) =>
-            index === self.findIndex((a) => a.geoname_id === airport.geoname_id)
-        );
-        return {
-          airports: merged,
-          pagination: response.data.pagination,
-          loading: false,
-          fetchedOffsets: [...state.fetchedOffsets, offset],
-        };
-      });
+      set((state) => ({
+        pages: { ...state.pages, [offset]: response.data.data },
+        pagination: response.data.pagination,
+        loading: false,
+      }));
     } catch (err) {
       set({
         error: err instanceof Error ? err.message : "An error occurred",
@@ -74,7 +65,7 @@ const useAirportStore = create<AirportStore>((set, get) => ({
       });
     }
   },
-  clearAirports: () => set({ airports: [], fetchedOffsets: [] }),
+  clearAirports: () => set({ pages: {} }),
 }));
 
 export default useAirportStore;
