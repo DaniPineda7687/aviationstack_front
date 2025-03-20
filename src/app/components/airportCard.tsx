@@ -32,7 +32,7 @@ const AirportCard: React.FC<AirportCardProps> = ({ airport }) => {
       </div>
 
       <div className="relative mt-8">
-        <Title variant="small" className="">
+        <Title variant="medium" className="font-extrabold">
           {airport.iata_code}
         </Title>
       </div>

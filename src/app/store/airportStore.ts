@@ -39,7 +39,7 @@ const useAirportStore = create<AirportStore>((set, get) => ({
   loading: false,
   error: null,
   fetchAirports: async (params = {}) => {
-    const { offset = 0, limit = 6 } = params;
+    const { offset = 0 } = params;
     // Si ya se ha consultado esa página, no volvemos a pedirla
     if (get().pages[offset]) return;
 
