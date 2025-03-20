@@ -1,19 +1,33 @@
-import useSearchStore from "@/app/store/useSearchStore";
 import React from "react";
+import useSearchStore from "@/app/store/useSearchStore";
+import { useRouter } from "next/navigation";
 
-const SearchButton: React.FC = () => {
+interface SearchButtonProps {
+  variant?: "default" | "small";
+}
+
+const SearchButton: React.FC<SearchButtonProps> = ({ variant = "default" }) => {
   const { searchQuery } = useSearchStore();
+  const router = useRouter();
 
   const handleSearch = () => {
-    console.log("Buscando:", searchQuery);
-    // Aquí ejecuta la consulta utilizando "searchQuery"
+    if(searchQuery === "") {
+      router.push("/airports");
+      return;
+    };
+    router.push(`/airports?name=${searchQuery}`);
   };
 
+  const baseClasses =
+    "border border-white cursor-pointer font-semibold rounded-xl bg-gradient-to-r from-[#006AFF] to-[#00F9FF] hover:opacity-80 transition-all shadow-md flex items-center gap-2";
+
+  const defaultClasses = "px-16 py-2 text-white text-sm sm:text-lg";
+  const smallClasses = "px-4 text-white text-xs sm:text-sm";
+
+  const variantClasses = variant === "default" ? defaultClasses : smallClasses;
+
   return (
-    <button
-      onClick={handleSearch}
-      className="px-16 py-2 text-white font-semibold rounded-xl bg-gradient-to-r from-[#006AFF] to-[#00F9FF] shadow-md flex items-center gap-2 text-sm sm:text-lg"
-    >
+    <button onClick={handleSearch} className={`${baseClasses} ${variantClasses}`}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="16"

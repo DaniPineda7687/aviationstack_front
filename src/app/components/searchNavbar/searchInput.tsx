@@ -1,16 +1,28 @@
 "use client"
-import useSearchStore from "@/app/store/useSearchStore";
 import React from "react";
+import useSearchStore from "@/app/store/useSearchStore";
 
-const SearchInput: React.FC = () => {
+interface SearchInputProps {
+  variant?: "default" | "small";
+}
+
+const SearchInput: React.FC<SearchInputProps> = ({ variant = "default" }) => {
   const { searchQuery, setSearchQuery } = useSearchStore();
+
+  const baseClasses =
+    "bg-white text-blue-500 focus:outline-none rounded-full w-10/12";
+
+  const defaultClasses = "py-4 px-6 text-lg sm:text-xl";
+  const smallClasses = "py-2 px-3 text-sm sm:text-base";
+
+  const variantClasses = variant === "default" ? defaultClasses : smallClasses;
 
   return (
     <input
       type="text"
       value={searchQuery}
       onChange={(e) => setSearchQuery(e.target.value)}
-      className="bg-white text-blue-500 py-4 px-6 text-lg focus:outline-none rounded-full w-10/12 sm:text-xl"
+      className={`${baseClasses} ${variantClasses}`}
       placeholder="Buscar aeropuertos..."
     />
   );
