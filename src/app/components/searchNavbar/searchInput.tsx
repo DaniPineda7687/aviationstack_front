@@ -13,7 +13,7 @@ const SearchInput: React.FC<SearchInputProps> = ({ variant = "default" }) => {
     "bg-white text-blue-500 focus:outline-none rounded-full w-10/12";
 
   const defaultClasses = "py-4 px-6 text-lg sm:text-xl";
-  const smallClasses = "py-2 px-3 text-sm sm:text-base";
+  const smallClasses = "py-2 px-3 text-md sm:text-md";
 
   const variantClasses = variant === "default" ? defaultClasses : smallClasses;
 

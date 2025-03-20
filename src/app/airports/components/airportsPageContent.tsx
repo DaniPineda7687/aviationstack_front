@@ -51,7 +51,7 @@ const AirportsPageContent = () => {
   const totalItems = searchParam ? filteredAirports.length : pagination.total;
 
   return (
-    <div className="p-8">
+    <div className="p-8 h-[100vh] overflow-y-auto">
       <div className="grid grid-cols-1 gap-2 grid-rows-2 md:grid-cols-6">
         <div className="col-span-1 md:col-span-3 justify-self-center md:justify-self-start">
           <Title variant="medium" onClick={() => router.push("/")}>

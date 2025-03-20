@@ -19,7 +19,7 @@ const SearchButton: React.FC<SearchButtonProps> = ({ variant = "default" }) => {
   };
 
   const baseClasses =
-    "border border-white cursor-pointer font-semibold rounded-xl bg-gradient-to-r from-[#006AFF] to-[#00F9FF] hover:opacity-80 transition-all shadow-md flex items-center gap-2";
+    "border border-white cursor-pointer font-semibold rounded-lg bg-gradient-to-r from-[#006AFF] to-[#00F9FF] hover:opacity-80 transition-all shadow-md flex items-center gap-2";
 
   const defaultClasses = "px-16 py-2 text-white text-sm sm:text-lg";
   const smallClasses = "px-4 text-white text-xs sm:text-sm";
