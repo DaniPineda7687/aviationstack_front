@@ -21,7 +21,16 @@ const AirportsPage = () => {
 
   const [storedData, setStoredData] = useLocalStorage("airportData", { pages: {}, pagination: { offset: 0, limit: 6, count: 0, total: 0 } });
 
-
+  useEffect(() => {
+    if (storedData.pages && Object.keys(storedData.pages).length && storedData.pagination) {
+      useAirportStore.setState({
+        pages: storedData.pages,
+        pagination: storedData.pagination,
+      });
+    } else {
+      fetchAirports({ offset: 0, limit: pageSize });
+    }
+  }, [storedData, pageSize]);
 
   useEffect(() => {
     const currentPages = JSON.stringify(pages);
@@ -58,7 +67,7 @@ const AirportsPage = () => {
   };
 
   return (
-    <div className="p-8">
+    <div className="p-8 mb-16">
       <div className="grid grid-cols-1 gap-2 grid-rows-2 md:grid-cols-6">
         <div className="col-span-1 md:col-span-3 justify-self-center md:justify-self-start">
           <Title variant="medium" onClick={() => router.push("/")}>

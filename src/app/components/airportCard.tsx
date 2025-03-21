@@ -10,7 +10,7 @@ interface AirportCardProps {
 const AirportCard: React.FC<AirportCardProps> = ({ airport }) => {
   const router = useRouter();
   return (
-    <div className="cursor-pointer relative rounded-lg shadow-md border border-white overflow-hidden p-8 transition-all duration-300 hover:brightness-70 hover:shadow-xl" onClick={() => router.push(`/airports/${airport.iata_code}`)}>
+    <div data-testid="airport-card" className="cursor-pointer relative rounded-lg shadow-md border border-white overflow-hidden p-8 transition-all duration-300 hover:brightness-70 hover:shadow-xl" onClick={() => router.push(`/airports/${airport.iata_code}`)}>
       <div className="block sm:hidden absolute inset-0 bg-gradient-to-r from-[#363F53] to-[#1B2439]" />
       <div className="hidden sm:block absolute inset-y-0 left-0 w-1/2 bg-gradient-to-r from-[#363F53] to-[#1B2439]" />
       <div

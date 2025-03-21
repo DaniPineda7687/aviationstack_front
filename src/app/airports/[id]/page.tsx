@@ -45,7 +45,7 @@ export default function AirportDetail({
           <Title variant="large" className="text-center my-6">
             {selectedAirport.airport_name}
           </Title>
-          <div className="flex justify-center">
+          <div className="flex justify-center mb-16">
             <Tabs tabs={tabs} />
           </div>
         </div>

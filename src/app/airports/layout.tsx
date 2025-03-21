@@ -16,10 +16,10 @@ export default function LayoutAirports({
     selectedAirport: null,
   });
 
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
-    console.log(1);
     if (storedData.pages && Object.keys(storedData.pages).length && storedData.pagination) {
+      setIsLoading(true);
       useAirportStore.setState({
         pages: storedData.pages,
         pagination: storedData.pagination,
@@ -27,14 +27,13 @@ export default function LayoutAirports({
       if (storedData.selectedAirport) {
         useAirportStore.setState({ selectedAirport: storedData.selectedAirport });
       }
+      setIsLoading(false); 
     }
-    setIsLoading(false); 
   }, [storedData]);
 
   if (isLoading) {
     return <div className="flex justify-center items-center">
-      <Loader />;
-      
+        <Loader />;
       </div>
   }
 

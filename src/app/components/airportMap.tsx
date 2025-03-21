@@ -22,7 +22,7 @@ const AirportMap: React.FC<AirportMapProps> = ({ position }) => {
     <MapContainer
       center={position}
       zoom={13}
-      style={{ width: "100%", height: "500px" }}
+      style={{ width: "100%", height: "400px" }}
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
