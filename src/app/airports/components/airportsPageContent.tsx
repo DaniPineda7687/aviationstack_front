@@ -7,23 +7,41 @@ import Title from "@/app/components/title";
 import SearchInput from "@/app/components/searchNavbar/searchInput";
 import SearchButton from "@/app/components/searchNavbar/searchButton";
 import Pagination from "@/app/components/pagination";
+import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 
 const AirportsPage = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const searchParam = searchParams.get("name") || "";
-  
+
   const { pages, loading, error, fetchAirports, pagination } = useAirportStore();
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = pagination.limit || 6;
   const currentOffset = (currentPage - 1) * pageSize;
-  
+
+  const [storedData, setStoredData] = useLocalStorage("airportData", { pages: {}, pagination: { offset: 0, limit: 6, count: 0, total: 0 } });
+
   useEffect(() => {
-    setCurrentPage(1);
-    if (!searchParam && !pages[0]) {
+    if (storedData.pages && Object.keys(storedData.pages).length && storedData.pagination) {
+      useAirportStore.setState({
+        pages: storedData.pages,
+        pagination: storedData.pagination,
+      });
+    } else {
       fetchAirports({ offset: 0, limit: pageSize });
     }
-  }, [searchParam]);
+  }, [storedData, pageSize]);
+
+  useEffect(() => {
+    const currentPages = JSON.stringify(pages);
+    const currentStoredPages = JSON.stringify(storedData.pages);
+    const currentPagination = JSON.stringify(pagination);
+    const currentStoredPagination = JSON.stringify(storedData.pagination);
+
+    if (currentPages !== currentStoredPages || currentPagination !== currentStoredPagination) {
+      setStoredData({ pages, pagination });
+    }
+  }, [pages, pagination, storedData]);
 
   let displayedAirports: Airport[] = [];
   if (searchParam) {
@@ -61,7 +79,7 @@ const AirportsPage = () => {
         </div>
       </div>
       <AirportsGrid filteredAirports={displayedAirports} loading={loading} />
-      <br/>
+      <br />
       <Pagination
         currentPage={currentPage}
         pageSize={pageSize}
