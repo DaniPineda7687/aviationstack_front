@@ -10,8 +10,6 @@ export default function LayoutAirports({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { pages, loading, error, fetchAirports, pagination } = useAirportStore();
-
   const [storedData] = useLocalStorage("airportData", {
     pages: {},
     pagination: { offset: 0, limit: 6, count: 0, total: 0 },
@@ -19,7 +17,6 @@ export default function LayoutAirports({
   });
 
   const [isLoading, setIsLoading] = useState(true);
-  console.log(storedData);
   useEffect(() => {
     console.log(1);
     if (storedData.pages && Object.keys(storedData.pages).length && storedData.pagination) {

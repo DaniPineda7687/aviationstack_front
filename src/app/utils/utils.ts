@@ -20,7 +20,7 @@ export const getLocalTime = (timezone?: string): string => {
   const formatter = new Intl.DateTimeFormat("en-US", options);
   return formatter.format(date);
 };
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const createTabs = (selectedAirport: any) => [
   {
     label: "General",
