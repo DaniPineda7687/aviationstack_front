@@ -9,7 +9,6 @@ export default function Home() {
       <div className="flex flex-col items-center">
         <div className="my-24 sm:my-32">
         <Title variant="large">SkyConnect Explorer</Title>
-
         </div>
         <SearchInput />
         <br />

@@ -19,7 +19,6 @@ const AirportsPage = () => {
   const currentOffset = (currentPage - 1) * pageSize;
   
   useEffect(() => {
-    // Reiniciamos la página al cambiar el filtro
     setCurrentPage(1);
     if (!searchParam && !pages[0]) {
       fetchAirports({ offset: 0, limit: pageSize });
@@ -28,7 +27,6 @@ const AirportsPage = () => {
 
   let displayedAirports: Airport[] = [];
   if (searchParam) {
-    // Si se filtra, combinamos todas las páginas y filtramos
     const allAirports = Object.values(pages).flat();
     displayedAirports = allAirports.filter(
       (airport) =>
@@ -50,7 +48,7 @@ const AirportsPage = () => {
   };
 
   return (
-    <div className="p-8 h-[100vh] overflow-y-auto">
+    <div className="p-8">
       <div className="grid grid-cols-1 gap-2 grid-rows-2 md:grid-cols-6">
         <div className="col-span-1 md:col-span-3 justify-self-center md:justify-self-start">
           <Title variant="medium" onClick={() => router.push("/")}>
@@ -63,6 +61,7 @@ const AirportsPage = () => {
         </div>
       </div>
       <AirportsGrid filteredAirports={displayedAirports} loading={loading} />
+      <br/>
       <Pagination
         currentPage={currentPage}
         pageSize={pageSize}
