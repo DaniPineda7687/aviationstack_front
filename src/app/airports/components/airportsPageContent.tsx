@@ -21,16 +21,7 @@ const AirportsPage = () => {
 
   const [storedData, setStoredData] = useLocalStorage("airportData", { pages: {}, pagination: { offset: 0, limit: 6, count: 0, total: 0 } });
 
-  useEffect(() => {
-    if (storedData.pages && Object.keys(storedData.pages).length && storedData.pagination) {
-      useAirportStore.setState({
-        pages: storedData.pages,
-        pagination: storedData.pagination,
-      });
-    } else {
-      fetchAirports({ offset: 0, limit: pageSize });
-    }
-  }, [storedData, pageSize]);
+
 
   useEffect(() => {
     const currentPages = JSON.stringify(pages);
@@ -42,6 +33,7 @@ const AirportsPage = () => {
       setStoredData({ pages, pagination });
     }
   }, [pages, pagination, storedData]);
+
 
   let displayedAirports: Airport[] = [];
   if (searchParam) {

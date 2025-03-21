@@ -1,7 +1,7 @@
 import { JSX } from "react";
 
 export interface Card {
-  [key: string]: string | number | JSX.Element | undefined | null;
+  [key: string]: any;
 }
 
 export interface TabProps {

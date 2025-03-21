@@ -1,88 +1,42 @@
 "use client";
 
-import React, { use, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import useAirportStore from "@/app/store/airportStore";
 import Title from "@/app/components/title";
 import Tabs from "@/app/components/tabs/Tabs";
-import {
-  IconGeneral,
-  IconLocation,
-  IconTime,
-  IconTimezone,
-} from "@/app/icons/icons";
-import { getLocalTime } from "@/app/utils/utils";
+import { createTabs } from "@/app/utils/utils";
+import Loader from "@/app/components/loader";
 
 export default function AirportDetail({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const { setSelectedAirport, selectedAirport, loading, error } =
+  const { setSelectedAirport, selectedAirport, loading } =
     useAirportStore();
-  const tabs = [
-    {
-      label: "General",
-      cards: [
-        {
-          label: "General",
+  
+  const [isLoading, setIsLoading] = useState(true);
 
-          "Código IATA": selectedAirport?.iata_code,
-          "Código ICAO": selectedAirport?.icao_code,
-          País: selectedAirport?.country_name,
-          Ciudad: selectedAirport?.city_iata_code,
-          Teléfono: selectedAirport?.phone_number,
-          icon: <IconGeneral />,
-        },
-      ],
-    },
-    {
-      label: "Ubicación",
-      cards: [
-        {
-          label: "Ubicación",
-
-          Latitud: selectedAirport?.latitude,
-          Longitud: selectedAirport?.longitude,
-          "Geoname ID": selectedAirport?.geoname_id,
-          icon: <IconLocation />,
-        },
-      ],
-    },
-    {
-      label: "Zona Horaria",
-      cards: [
-        {
-          label: "Zona Horaria",
-          "Zona Horaria": selectedAirport?.timezone,
-          GMT: selectedAirport?.geoname_id,
-          icon: <IconTimezone />,
-        },
-        {
-          label: "Hora",
-          "Hora": getLocalTime(selectedAirport?.timezone),
-          icon: <IconTime />,
-        },
-      ],
-    },
-    {
-      label: "Estadísticas",
-      cards: [
-        {
-          label: "Estadísticas",
-          "Número de vuelos": 0,
-          "Número de rutas": 0,
-          "Número de aerolíneas": 0,
-        },
-      ],
-    },
-  ];
-  const { id } = use(params);
   useEffect(() => {
-    setSelectedAirport(id);
-  }, [id]);
+    const fetchData = async () => {
+      const { id } = await params;
+      if (id) {
+        setSelectedAirport(id);
+      }
+    };
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
+    fetchData();
+  }, [params, setSelectedAirport]);
+
+  useEffect(() => {
+    if (!loading) {
+      setIsLoading(false);
+    }
+  }, [loading, selectedAirport]);
+
+  if (isLoading) return <Loader />;
+
+  const tabs = selectedAirport ? createTabs(selectedAirport) : [];
 
   return (
     <div>
@@ -96,7 +50,7 @@ export default function AirportDetail({
           </div>
         </div>
       ) : (
-        <p>No se encontró el aeropuerto</p>
+        <p className="text-white text-center text-lg my-8">No se encontró el aeropuerto</p>
       )}
     </div>
   );
