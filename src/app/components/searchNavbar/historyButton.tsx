@@ -1,5 +1,4 @@
 import React from "react";
-import useSearchStore from "@/app/store/useSearchStore";
 import { useRouter } from "next/navigation";
 
 interface HistoryButtonProps {
@@ -9,7 +8,6 @@ interface HistoryButtonProps {
 const HistoryButton: React.FC<HistoryButtonProps> = ({
   variant = "default",
 }) => {
-  const { searchQuery, addSearchToHistory } = useSearchStore();
   const router = useRouter();
 
   const handleGoToHistory = () => {
