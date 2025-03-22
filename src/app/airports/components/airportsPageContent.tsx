@@ -8,6 +8,7 @@ import SearchInput from "@/app/components/searchNavbar/searchInput";
 import SearchButton from "@/app/components/searchNavbar/searchButton";
 import Pagination from "@/app/components/pagination";
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
+import HistoryButton from "@/app/components/searchNavbar/historyButton";
 
 const AirportsPage = () => {
   const searchParams = useSearchParams();
@@ -76,7 +77,10 @@ const AirportsPage = () => {
         </div>
         <div className="row-start-2 md:row-start-1 md:col-start-4 md:col-span-3 gap-2 flex justify-end">
           <SearchInput variant="small" />
+          <div className="flex gap-2">
           <SearchButton variant="small" />
+          <HistoryButton variant="small" />
+        </div>
         </div>
       </div>
       <AirportsGrid filteredAirports={displayedAirports} loading={loading} />

@@ -2,7 +2,7 @@
 
 import { useLocalStorage } from "@/app/hooks/useLocalStorage";
 import useAirportStore from "@/app/store/airportStore";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Loader from "../components/loader";
 
 export default function LayoutAirports({
@@ -37,5 +37,5 @@ export default function LayoutAirports({
       </div>
   }
 
-  return <div>{children}</div>;
+  return <Suspense>{children}</Suspense>;
 }
